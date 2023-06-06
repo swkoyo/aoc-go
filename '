@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+    "log"
+    "bufio"
+    "os"
+    "unicode"
+)
+
+func getCharCode(char string) int {
+    if (unicode.IsUpper([]rune(char)[0])) {
+        return 1;
+    }
+    return 0;
+}
+
+func main() {
+    file, err := os.Open("./input.txt");
+    if err != nil {
+        log.Fatalln("Error reading file", err)
+    }
+
+    defer file.Close();
+
+    scanner := bufio.NewScanner(file);
+
+    if err := scanner.Err(); err != nil {
+        log.Fatalln("Error scanning file", err)
+    }
+
+    for scanner.Scan() {
+    }
+
+    fmt.Println([]rune("A")[0] - 38);
+    fmt.Println(getCharCode("A"));
+}
