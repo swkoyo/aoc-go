@@ -7,6 +7,16 @@ import (
 	"os"
 )
 
+func getDistinctCount(set *map[rune]int) int {
+    count := 0
+    for _, v := range *set {
+        if v == 1 {
+            count++
+        }
+    }
+    return count
+}
+
 func main() {
 	file, err := os.Open("./input.txt")
 	if err != nil {
@@ -20,31 +30,23 @@ func main() {
 	for scanner.Scan() {
 		line = scanner.Text()
 	}
-	set := map[string]int{}
+	set := map[rune]int{}
+	for i := rune('a'); i <= rune('z'); i++ {
+		set[i] = 0
+	}
 	for i := 0; i < 3; i++ {
-		if _, ok := set[string(line[i])]; ok {
-			set[string(line[i])]++
-		} else {
-			set[string(line[i])] = 1
-		}
+		set[rune(line[i])]++
 	}
 	l := 0
 	res := 0
 
 	for r := 3; r < len(line); r++ {
-		if _, ok := set[string(line[r])]; ok {
-			set[string(line[r])]++
-		} else {
-			set[string(line[r])] = 1
-		}
-		if len(set) == 4 {
+		set[rune(line[r])]++
+        if getDistinctCount(&set) == 4 {
 			res = r + 1
 			break
 		}
-		set[string(line[l])]--
-		if set[string(line[l])] == 0 {
-			delete(set, string(line[l]))
-		}
+		set[rune(line[l])]--
 		l++
 	}
 
